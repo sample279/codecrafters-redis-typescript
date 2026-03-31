@@ -26,11 +26,14 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
     if (command === "SET") {
       const key: string = tokens[1];
       const value: string = tokens[2];
+      const hasPX: Boolean =
+        tokens.length >= 5 && tokens[3].toUpperCase() === "PX";
 
-      if (tokens.length >= 5 && tokens[3].toUpperCase() === "PX") {
+      if (hasPX) {
+        const timeOut = Number(tokens[4]);
         store.set(key, value);
         connection.write(`+OK\r\n`);
-        setTimeout(() => store.delete(key), Number(tokens[4]));
+        setTimeout(() => store.delete(key), timeOut);
         console.log(tokens);
         console.log("COMMAND:", command);
         return;
