@@ -5,7 +5,21 @@ const parseResp = (data: Buffer) => {
     .split("\r\n")
     .filter((line: string) => line.length > 0);
 
-  console.log(lines);
+  const result: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (line.startsWith("$")) {
+      const value = lines[i + 1];
+      result.push(value);
+      i++;
+    }
+  }
+
+  console.log(result);
+
+  return result;
 };
 
 export { parseResp };
