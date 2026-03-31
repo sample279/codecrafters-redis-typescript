@@ -1,6 +1,6 @@
 const parseResp = (data: Buffer) => {
   let parsedData: string = data.toString();
-  console.log(parsedData);
+  console.log("parsed data" + parsedData);
 
   const input = [];
 
