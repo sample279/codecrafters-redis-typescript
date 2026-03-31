@@ -8,9 +8,10 @@ const store = new Map<string, string>();
 const server: net.Server = net.createServer((connection: net.Socket) => {
   connection.on("data", (data: Buffer) => {
     const tokens = parseResp(data);
-    const command: string = tokens[0].toUpperCase();
 
     if (tokens.length === 0) return;
+
+    const command: string = tokens[0].toUpperCase();
 
     if (command === "PING") {
       connection.write("+PONG\r\n");
@@ -32,7 +33,6 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
         store.set(key, value);
         connection.write(`+OK\r\n`);
         setTimeout(() => store.delete(key), timeOut);
-        console.log("exit");
         return;
       }
 
