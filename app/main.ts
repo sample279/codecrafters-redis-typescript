@@ -5,7 +5,9 @@ import { socket } from "./socket";
 console.log("Logs from your program will appear here!");
 
 const server: Server = createServer((socket: Socket) => {
-  socket.write("+PONG\r\n");
+  socket.on("data", () => {
+    socket.write("+PONG\r\n");
+  });
 });
 
 server.listen(6379, "127.0.0.1");
