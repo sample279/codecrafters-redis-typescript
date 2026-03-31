@@ -5,7 +5,7 @@ const HOSTNAME = "127.0.0.1";
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
   connection.on("data", (data: Buffer) => {
-    console.log(data);
+    console.log(data.toString());
 
     connection.write("+PONG\r\n");
   });
