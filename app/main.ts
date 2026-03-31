@@ -14,6 +14,8 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
       return;
     }
     if (command.startsWith("ECHO ")) {
+      console.log(tokens[1]);
+
       connection.write(`$${tokens[1].length}\r\n${tokens[1]}\r\n`);
       return;
     }
