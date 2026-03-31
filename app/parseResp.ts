@@ -1,6 +1,10 @@
 const parseResp = (data: Buffer) => {
   const parsedData = data.toString();
-  console.log(parsedData);
+
+  if (parsedData.startsWith("*")) {
+    const length = parsedData[1];
+    console.log(length);
+  }
 };
 
 export { parseResp };
