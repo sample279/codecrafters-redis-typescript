@@ -5,7 +5,7 @@ const parseResp = (data: Buffer) => {
   const input = [];
 
   if (parsedData.startsWith("*")) {
-    let parsedDataArray: string[] = parsedData.split(/\$\d+\r\n/);
+    let parsedDataArray: string[] = parsedData.split(/[\*\$]?\d+\r\n/);
     parsedDataArray = parsedDataArray.join("").split(/\r\n/);
     console.log(parsedDataArray);
   }
