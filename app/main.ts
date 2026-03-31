@@ -34,8 +34,6 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
         store.set(key, value);
         connection.write(`+OK\r\n`);
         setTimeout(() => store.delete(key), timeOut);
-        console.log(tokens);
-        console.log("COMMAND:", command);
         return;
       }
 
