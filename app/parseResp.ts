@@ -8,8 +8,6 @@ const parseResp = (data: Buffer) => {
     const length = parsedData[1];
     parsedData.split(`/\$\d+/`);
     console.log(parsedData.split(`/\$\d+/`));
-);
-    
   }
 };
 
