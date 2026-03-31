@@ -8,7 +8,7 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
   connection.on("data", (data: Buffer) => {
     const tokens = parseResp(data);
     const command: string = tokens[0].toUpperCase();
-    const storage: Record<string, string>[] = [];
+    const store = new Map<string, string>();
 
     if (tokens.length === 0) return;
 
@@ -25,16 +25,21 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
     if (command === "SET") {
       const key: string = tokens[1];
       const value: string = tokens[2];
-      const set: Record<string, string> = {
-        [key]: value,
-      };
-      storage.push(set);
-      console.log(storage);
+
+      store.set(key, value);
 
       connection.write(`OK`);
     }
 
     if (command === "GET") {
+      const key: string = tokens[1];
+
+      if (store.get(key)) {
+        connection.write(`${store.get(key)}`);
+        return;
+      }
+      connection.write(`$-1\r\n`);
+      return;
     }
 
     connection.write(`-ERR unknown command\r\n`);
