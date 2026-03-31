@@ -2,6 +2,7 @@ const parseResp = (data: Buffer) => {
   const parsedData = data.toString();
   console.log(parsedData);
 
+  console.log(parsedData.split(`/\$\d+/`));
   const input = [];
 
   if (parsedData.startsWith("*")) {
