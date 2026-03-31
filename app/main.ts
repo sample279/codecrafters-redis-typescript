@@ -37,6 +37,7 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
         return;
       }
 
+      store.set(key, value);
       connection.write(`+OK\r\n`);
       return;
     }
