@@ -8,7 +8,7 @@ const parseResp = (data: Buffer) => {
     let parsedDataArray: string[] = parsedData.split(/[\*\$]?\d+\r\n/);
     console.log(parsedDataArray);
 
-    parsedDataArray = parsedDataArray.join("").split(/\r\n/);
+    parsedDataArray = parsedDataArray.join("").split(/\r\n$/);
     console.log(parsedDataArray);
   }
 };
