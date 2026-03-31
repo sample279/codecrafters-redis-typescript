@@ -7,7 +7,7 @@ const parseResp = (data: Buffer) => {
   if (parsedData.startsWith("*")) {
     const length = parsedData[1];
     parsedData.split(`/\$\d+/`);
-    console.log(parsedData.split(/\$\d+\r\n/));
+    console.log(parsedData.split(/\$\d+\r\n/), /\r\n/);
   }
 };
 
