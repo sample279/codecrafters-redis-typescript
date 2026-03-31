@@ -1,13 +1,12 @@
-import { Server, createServer, Socket } from "net";
-import { socket } from "./socket";
+import * as net from "net";
 
-// You can use print statements as follows for debugging, they'll be visible when running tests.
-console.log("Logs from your program will appear here!");
+const PORT = 6379;
+const HOSTNAME = "127.0.0.1";
 
-const server: Server = createServer((socket: Socket) => {
-  socket.on("data", () => {
-    socket.write("+PONG\r\n");
+const server: net.Server = net.createServer((connection: net.Socket) => {
+  connection.on("data", (data: Buffer) => {
+    connection.write("+PONG\r\n");
   });
 });
 
-server.listen(6379, "127.0.0.1");
+server.listen(PORT, HOSTNAME);
