@@ -23,8 +23,8 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
     }
 
     if (command === "SET") {
-      const key: string = tokens[2];
-      const value: string = tokens[3];
+      const key: string = tokens[1];
+      const value: string = tokens[2];
       const set: Record<string, string> = {
         [key]: value,
       };
