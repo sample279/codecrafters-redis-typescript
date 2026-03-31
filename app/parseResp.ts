@@ -1,5 +1,6 @@
 const parseResp = (data: Buffer) => {
-  console.log(data);
+  const parsedData = data.toString();
+  console.log(parsedData);
 };
 
 export { parseResp };
