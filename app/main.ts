@@ -28,6 +28,8 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
       const flag: string = tokens[3].toUpperCase();
       const timeOut: number = Number(tokens[4]);
 
+      console.log(flag);
+
       if (flag === "PX") {
         store.set(key, value);
         connection.write(`+OK\r\n`);
