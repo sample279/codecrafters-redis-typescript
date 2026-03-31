@@ -36,7 +36,8 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
       const key: string = tokens[1];
 
       if (store.has(key)) {
-        connection.write(`$${store.get(key)?.length}\r\n${store.get(key)}\r\n`);
+        const value = store.get(key)!;
+        connection.write(`$${value.length}\r\n${value}\r\n`);
         return;
       }
       connection.write(`$-1\r\n`);
