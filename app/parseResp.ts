@@ -17,8 +17,6 @@ const parseResp = (data: Buffer) => {
     }
   }
 
-  console.log(result);
-
   return result;
 };
 

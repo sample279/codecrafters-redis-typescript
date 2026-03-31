@@ -6,8 +6,17 @@ const HOSTNAME = "127.0.0.1";
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
   connection.on("data", (data: Buffer) => {
-    parseResp(data);
-    connection.write("+PONG\r\n");
+    const tokens = parseResp(data);
+    const command: string = tokens[0].toLowerCase();
+
+    if (command.startsWith("PING ")) {
+      connection.write("+PONG\r\n");
+      return;
+    }
+    if (command.startsWith("ECHO ")) {
+      connection.write(`$${tokens[1].length}\r\n${tokens[1]}\r\n`);
+      return;
+    }
   });
 });
 
