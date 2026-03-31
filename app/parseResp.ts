@@ -3,7 +3,6 @@ const parseResp = (data: Buffer) => {
 
   if (parsedData.startsWith("*")) {
     const length = parsedData[1];
-    console.log(length);
   }
 };
 
