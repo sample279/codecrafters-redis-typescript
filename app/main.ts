@@ -29,6 +29,7 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
       store.set(key, value);
 
       connection.write(`OK`);
+      return;
     }
 
     if (command === "GET") {
