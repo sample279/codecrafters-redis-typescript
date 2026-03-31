@@ -11,11 +11,11 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
 
     if (tokens.length === 0) return;
 
-    if (command === "PING ") {
+    if (command === "PING") {
       connection.write("+PONG\r\n");
       return;
     }
-    if (command === "ECHO ") {
+    if (command === "ECHO") {
       connection.write(`$${tokens[1].length}\r\n${tokens[1]}\r\n`);
       return;
     }
