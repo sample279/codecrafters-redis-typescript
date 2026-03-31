@@ -20,6 +20,8 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
       connection.write(`$${tokens[1].length}\r\n${tokens[1]}\r\n`);
       return;
     }
+
+    connection.write(`-ERR unknown command\r\n`);
   });
 });
 
