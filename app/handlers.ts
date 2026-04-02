@@ -39,7 +39,9 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   RPUSH: (tokens) => {
     console.log(tokens);
     const key = tokens[0];
-    return "asd";
+    const value = tokens[1];
+    storeSet(key, value);
+    return storeGet(key)?.length;
   },
 };
 

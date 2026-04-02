@@ -1,4 +1,4 @@
-const data = new Map<string, string>();
+const data = new Map<string, string | string[]>();
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
 /**
@@ -23,7 +23,8 @@ const storeSet = (key: string, value: string, ttlMs?: number): void => {
  * Gets value of key from the store.
  * @param key - The key to get
  */
-const storeGet = (key: string): string | null => data.get(key) ?? null;
+const storeGet = (key: string): string | string[] | null =>
+  data.get(key) ?? null;
 
 /**
  * Deletes the key-value pair in the store
