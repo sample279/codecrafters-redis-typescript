@@ -46,7 +46,7 @@ const storeUpdate = (key: string, value: string) => {
   }
 
   storeGet(key)!.push(value);
-  return `:${storeGet(key)?.length}\r\n`;
+  return `:[<+|->]${storeGet(key)?.length}\r\n`;
 };
 
 export { storeSet, storeGet, storeDelete, storeUpdate };
