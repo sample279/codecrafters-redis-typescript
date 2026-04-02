@@ -36,4 +36,10 @@ const storeDelete = (key: string): void => {
   timers.delete(key);
 };
 
-export { storeSet, storeGet, storeDelete };
+const storeUpdate = (key: string, value: string) => {
+  if (!storeGet(key)) {
+    console.log("doesnt have key");
+  }
+};
+
+export { storeSet, storeGet, storeDelete, storeUpdate };

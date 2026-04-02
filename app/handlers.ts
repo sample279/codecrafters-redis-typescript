@@ -1,4 +1,4 @@
-import { storeSet, storeGet } from "./store";
+import { storeSet, storeGet, storeDelete, storeUpdate } from "./store";
 
 /**
  * Map of Redis command handlers.
@@ -38,6 +38,10 @@ const handlers: Record<string, (tokens: string[]) => string> = {
 
   RPUSH: (tokens) => {
     console.log(tokens);
+    const key: string = tokens[0];
+    const value: string = tokens[1];
+
+    storeUpdate(key, value);
   },
 };
 
