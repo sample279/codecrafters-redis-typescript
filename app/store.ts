@@ -41,13 +41,12 @@ const storeDelete = (key: string): void => {
 };
 
 const storeUpdate = (key: string, value: string) => {
-  if (!data.has(key)) {
-    console.log("doesnt have key");
+  if (!storeGet(key)) {
     storeSet(key, []);
   }
 
-  data.get(key)!.push(value);
-  console.log("pushed");
+  storeGet(key)!.push(value);
+  return `:[<+|->]${storeGet(key)?.length}\r\n`;
 };
 
 export { storeSet, storeGet, storeDelete, storeUpdate };
