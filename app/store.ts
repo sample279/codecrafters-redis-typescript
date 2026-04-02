@@ -7,7 +7,11 @@ const timers = new Map<string, ReturnType<typeof setTimeout>>();
  * @param value - The value to store
  * @param ttlMs - Optional expiry in milliseconds
  */
-const storeSet = (key: string, value: string, ttlMs?: number): void => {
+const storeSet = (
+  key: string,
+  value: string | string[],
+  ttlMs?: number,
+): void => {
   clearTimeout(timers.get(key));
   data.set(key, value);
 
@@ -37,9 +41,13 @@ const storeDelete = (key: string): void => {
 };
 
 const storeUpdate = (key: string, value: string) => {
-  if (!storeGet(key)) {
+  if (!data.has(key)) {
     console.log("doesnt have key");
+    storeSet(key, []);
   }
+
+  data.get(key)!.push(value);
+  console.log("pushed");
 };
 
 export { storeSet, storeGet, storeDelete, storeUpdate };
