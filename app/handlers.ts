@@ -35,6 +35,12 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const value = storeGet(tokens[0]);
     return value !== null ? `$${value.length}\r\n${value}\r\n` : `$-1\r\n`;
   },
+
+  RPUSH: (tokens) => {
+    console.log(tokens);
+    const key = tokens[0];
+    return "asd";
+  },
 };
 
 export { handlers };
