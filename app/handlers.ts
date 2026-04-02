@@ -13,6 +13,8 @@ const handlers: Record<string, (tokens: string[]) => string> = {
 
   /** Echoes the given message back */
   ECHO: (tokens) => {
+    console.log("why tf are you not running");
+
     return `$${tokens[1].length}\r\n${tokens[1]}\r\n`;
   },
 
