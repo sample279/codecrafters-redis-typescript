@@ -12,12 +12,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   PING: () => "+PONG\r\n",
 
   /** Echoes the given message back */
-  ECHO: (tokens) => {
-    console.log(tokens);
-
-    console.log("why tf are you not running");
-    return `$${tokens[0].length}\r\n${tokens[0]}\r\n`;
-  },
+  ECHO: (tokens) => `$${tokens[0].length}\r\n${tokens[0]}\r\n`,
 
   /**
    * Sets a key-value pair in the store.
