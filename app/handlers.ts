@@ -12,7 +12,9 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   PING: () => "+PONG\r\n",
 
   /** Echoes the given message back */
-  ECHO: (tokens) => `*${tokens[1].length}\r\n${tokens[1]}\r\n`,
+  ECHO: (tokens) => {
+    return `$${tokens[1].length}\r\n${tokens[1]}\r\n`;
+  },
 
   /**
    * Sets a key-value pair in the store.
