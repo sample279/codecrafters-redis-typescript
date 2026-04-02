@@ -41,22 +41,22 @@ const storeDelete = (key: string): void => {
 };
 
 const storeUpdate = (key: string, value: string) => {
-  let keyExists = storeGet(key);
+  let existing = storeGet(key);
 
-  if (keyExists === null) {
-    storeSet(key, []);
-    keyExists = storeGet(key);
+  if (existing === null) {
+    const arr = [value];
+    data.set(key, arr);
+    return `:${arr.length}\r\n`;
   }
 
-  if (Array.isArray(keyExists)) {
-    keyExists.push(value);
-  } else if (keyExists === null) {
-    data.set(key, [value]);
-  } else {
-    data.set(key, [keyExists, value]);
+  if (Array.isArray(existing)) {
+    existing.push(value);
+    return `:${existing.length}\r\n`;
   }
 
-  return `:${keyExists?.length}\r\n`;
+  const arr = [existing, value];
+  data.set(key, arr);
+  return `:${arr.length}\r\n`;
 };
 
 export { storeSet, storeGet, storeDelete, storeUpdate };
