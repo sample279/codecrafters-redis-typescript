@@ -40,23 +40,23 @@ const storeDelete = (key: string): void => {
   timers.delete(key);
 };
 
-const storeUpdate = (key: string, value: string) => {
+const storeList = (key: string, value: string[]) => {
   let existing = storeGet(key);
 
   if (existing === null) {
-    const arr = [value];
+    const arr = [...value];
     data.set(key, arr);
     return `:${arr.length}\r\n`;
   }
 
   if (Array.isArray(existing)) {
-    existing.push(value);
+    existing.push(...value);
     return `:${existing.length}\r\n`;
   }
 
-  const arr = [existing, value];
+  const arr = [existing, ...value];
   data.set(key, arr);
   return `:${arr.length}\r\n`;
 };
 
-export { storeSet, storeGet, storeDelete, storeUpdate };
+export { storeSet, storeGet, storeDelete, storeList };
