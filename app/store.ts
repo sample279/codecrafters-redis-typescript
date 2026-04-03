@@ -86,6 +86,8 @@ const storeGetList = (key: string, start: number, stop: number) => {
   if (existing) {
     if (start < 0) {
       if (start + existing.length < 0) {
+        console.log("this is running");
+
         start = 0;
       }
       start = existing.length + start;
