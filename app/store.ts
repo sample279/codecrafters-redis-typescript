@@ -92,10 +92,12 @@ const storeGetList = (key: string, start: number, stop: number) => {
 
   if (start < 0) {
     start = existing.length + start;
+    console.log(start);
   }
 
   if (stop < 0) {
     stop = existing.length + stop;
+    console.log(stop);
   }
 
   if (existing) {
