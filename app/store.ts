@@ -81,6 +81,8 @@ const storeGetList = (key: string, start: number, stop: number) => {
   const existing = storeGet(key);
   let respArray: string[] = [];
 
+  console.log(start, stop);
+
   if (existing) {
     if (start < 0) {
       start = existing.length + start;
