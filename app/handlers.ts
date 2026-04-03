@@ -5,6 +5,7 @@ import {
   storeAppendLast,
   storeAppendFirst,
   storeGetList,
+  storeListLength,
 } from "./store";
 
 /**
@@ -77,7 +78,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   /**
    * Returns a range of elements from a list.
    * Values between `start` and `stop` (inclusive) are returned in RESP format.
-   * Supports negative indices
+   * Supports negative indices.
    * @param tokens - [key, start, stop]
    * @example
    * // LRANGE mylist 0 2
@@ -89,6 +90,12 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const stop: number = Number(tokens[2]);
 
     return storeGetList(key, start, stop);
+  },
+
+  LLEN: (tokens) => {
+    const key: string = tokens[0];
+
+    return storeListLength(key);
   },
 };
 

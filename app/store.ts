@@ -49,7 +49,7 @@ const storeDelete = (key: string): void => {
  * @param value - Array of values to append to the list
  * @returns RESP-formatted string containing the updated list length
  */
-const storeAppendLast = (key: string, value: string[]) => {
+const storeAppendLast = (key: string, value: string[]): string => {
   let existing = storeGet(key);
 
   if (existing === null) {
@@ -77,7 +77,7 @@ const storeAppendLast = (key: string, value: string[]) => {
  * @param value - Array of values to append to the list
  * @returns RESP-formatted string containing the updated list length
  */
-const storeAppendFirst = (key: string, value: string[]) => {
+const storeAppendFirst = (key: string, value: string[]): string => {
   let existing = storeGet(key);
   value = value.reverse();
 
@@ -106,7 +106,7 @@ const storeAppendFirst = (key: string, value: string[]) => {
  * @param stop - The ending index (inclusive)
  * @returns RESP-formatted string containing the selected list values
  */
-const storeGetList = (key: string, start: number, stop: number) => {
+const storeGetList = (key: string, start: number, stop: number): string => {
   const existing = storeGet(key);
   let respArray: string[] = [];
 
@@ -144,6 +144,16 @@ const storeGetList = (key: string, start: number, stop: number) => {
   }
 
   return `*${respArray.length}\r\n${respArray.join("\r\n")}\r\n`;
+};
+
+const storeListLength = (key: string): string => {
+  const existing = storeGet(key);
+
+  if (existing) {
+    return `:[<+|->]${existing.length}\r\n`;
+  }
+
+  return `:[<+|->]0\r\n`;
 };
 
 export {
