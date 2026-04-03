@@ -68,27 +68,31 @@ const storeAppendLast = (key: string, value: string[]) => {
   return `:${arr.length}\r\n`;
 };
 
+/**
+ * Appends one or more values at the start of the list stored at the given key.
+ * If key does not exist, a new list is created.
+ * If the key holds a string, it is converted into a list before appending.
+ *
+ * @param key - The key of the list
+ * @param value - Array of values to append to the list
+ * @returns RESP-formatted string containing the updated list length
+ */
 const storeAppendFirst = (key: string, value: string[]) => {
   let existing = storeGet(key);
   value = value.reverse();
 
   if (existing === null) {
     const arr = [...value];
-
     data.set(key, arr);
     return `:${arr.length}\r\n`;
   }
 
   if (Array.isArray(existing)) {
     existing.unshift(...value);
-    console.log(existing);
-
     return `:${existing.length}\r\n`;
   }
 
   const arr = [...value, existing];
-  console.log(arr);
-
   data.set(key, arr);
   return `:${arr.length}\r\n`;
 };

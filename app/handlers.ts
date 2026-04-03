@@ -46,6 +46,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   /**
    * Pushes one or more values to the tail of a list.
    * Creates the list if it does not exist.
+   * Returns the new length of the list.
    * @example
    * // RPUSH mylist a b c
    * // ":3\r\n"
@@ -57,6 +58,15 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     return storeAppendLast(key, value);
   },
 
+  /**
+   * Pushes one or more values to the head of a list.
+   * Creates the list if it does not exist.
+   * Returns the new length of the list.
+   * @example
+   * // LPUSH mylist a b c
+   * // ":3\r\n"
+   */
+
   LPUSH: (tokens) => {
     const key: string = tokens[0];
     const value: string[] = tokens.slice(1);
@@ -67,7 +77,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   /**
    * Returns a range of elements from a list.
    * Values between `start` and `stop` (inclusive) are returned in RESP format.
-   *
+   * Supports negative indices
    * @param tokens - [key, start, stop]
    * @example
    * // LRANGE mylist 0 2
