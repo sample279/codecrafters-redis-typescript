@@ -70,6 +70,7 @@ const storeAppendList = (key: string, value: string[]) => {
 
 const storeGetList = (key: string, start: number, end: number) => {
   const existing = storeGet(key);
+  console.log(key);
 
   if (existing === null) {
     return [];
