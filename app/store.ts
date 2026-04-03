@@ -86,7 +86,7 @@ const storeAppendFirst = (key: string, value: string[]) => {
     return `:${existing.length}\r\n`;
   }
 
-  const arr = [existing, ...value];
+  const arr = [...value.reverse(), existing];
   console.log(arr);
 
   data.set(key, arr);
