@@ -70,12 +70,12 @@ const storeAppendLast = (key: string, value: string[]) => {
 
 const storeAppendFirst = (key: string, value: string[]) => {
   let existing = storeGet(key);
+  value = value.reverse();
 
   if (existing === null) {
     const arr = [...value];
-    console.log(arr.reverse());
 
-    data.set(key, arr.reverse());
+    data.set(key, arr);
     return `:${arr.length}\r\n`;
   }
 
@@ -86,7 +86,7 @@ const storeAppendFirst = (key: string, value: string[]) => {
     return `:${existing.length}\r\n`;
   }
 
-  const arr = [...value.reverse(), existing];
+  const arr = [...value, existing];
   console.log(arr);
 
   data.set(key, arr);
