@@ -90,11 +90,11 @@ const storeGetList = (key: string, start: number, stop: number) => {
   }
 
   if (start < 0) {
-    start += existing.length + start + 1;
+    start += existing.length + start;
   }
 
   if (stop < 0) {
-    stop += existing.length + stop + 1;
+    stop += existing.length + stop;
   }
 
   if (existing) {
