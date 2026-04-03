@@ -81,10 +81,14 @@ const storeAppendFirst = (key: string, value: string[]) => {
 
   if (Array.isArray(existing)) {
     existing.unshift(...value);
+    console.log(existing);
+
     return `:${existing.length}\r\n`;
   }
 
   const arr = [existing, ...value];
+  console.log(arr);
+
   data.set(key, arr);
   return `:${arr.length}\r\n`;
 };
