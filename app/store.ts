@@ -97,6 +97,8 @@ const storeGetList = (key: string, start: number, stop: number) => {
     stop += existing.length + stop;
   }
 
+  console.log(start, stop);
+
   if (existing) {
     const list = existing.slice(start, stop + 1);
 
