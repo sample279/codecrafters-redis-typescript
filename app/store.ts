@@ -163,4 +163,5 @@ export {
   storeAppendLast,
   storeAppendFirst,
   storeGetList,
+  storeListLength,
 };
