@@ -40,7 +40,16 @@ const storeDelete = (key: string): void => {
   timers.delete(key);
 };
 
-const storeList = (key: string, value: string[]) => {
+/**
+ * Appends one or more values to a list stored at the given key.
+ * If the key does not exist, a new list is created.
+ * If the key holds a string, it is converted into a list before appending.
+ *
+ * @param key - The key of the list
+ * @param value - Array of values to append to the list
+ * @returns RESP-formatted string containing the updated list length
+ */
+const storeAppendList = (key: string, value: string[]) => {
   let existing = storeGet(key);
 
   if (existing === null) {
@@ -59,4 +68,18 @@ const storeList = (key: string, value: string[]) => {
   return `:${arr.length}\r\n`;
 };
 
-export { storeSet, storeGet, storeDelete, storeList };
+const storeGetList = (key: string, start: number, end: number) => {
+  const existing = storeGet(key);
+
+  if (existing === null) {
+    return [];
+  }
+
+  if (existing) {
+    const list = existing.slice(start, end + 1);
+
+    console.log(list);
+  }
+};
+
+export { storeSet, storeGet, storeDelete, storeAppendList, storeGetList };

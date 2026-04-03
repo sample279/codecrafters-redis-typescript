@@ -1,4 +1,4 @@
-import { storeSet, storeGet, storeDelete, storeList } from "./store";
+import { storeSet, storeGet, storeDelete, storeAppendList } from "./store";
 
 /**
  * Map of Redis command handlers.
@@ -24,7 +24,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
       tokens[2]?.toUpperCase() === "PX" ? Number(tokens[3]) : undefined;
 
     storeSet(tokens[0], tokens[1], ttlMs);
-    return `+OK\r\n`;
+    return "+OK\r\n";
   },
 
   /**
@@ -33,14 +33,29 @@ const handlers: Record<string, (tokens: string[]) => string> = {
    */
   GET: (tokens) => {
     const value = storeGet(tokens[0]);
-    return value !== null ? `$${value.length}\r\n${value}\r\n` : `$-1\r\n`;
+    return value !== null ? `$${value.length}\r\n${value}\r\n` : "$-1\r\n";
   },
 
+  /**
+   * Pushes one or more values to the tail of a list.
+   * Creates the list if it does not exist.
+   * @example
+   * // RPUSH mylist a b c
+   * // ":3\r\n"
+   */
   RPUSH: (tokens) => {
     const key: string = tokens[0];
     const value: string[] = tokens.slice(1);
 
-    return storeList(key, value);
+    return storeAppendList(key, value);
+  },
+
+  LRANGE: (tokens) => {
+    const key: string = tokens[0];
+    const start: number = Number(tokens[1]);
+    const stop: number = Number(tokens[2]);
+
+    return;
   },
 };
 
