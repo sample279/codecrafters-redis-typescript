@@ -68,18 +68,25 @@ const storeAppendList = (key: string, value: string[]) => {
   return `:${arr.length}\r\n`;
 };
 
-const storeGetList = (key: string, start: number, end: number) => {
+const storeGetList = (key: string, start: number, stop: number) => {
   const existing = storeGet(key);
-  console.log(key);
 
-  if (existing === null) {
-    return [];
+  if (existing && stop >= existing.length) {
+    stop = existing.length;
+  }
+
+  if (existing === null || start >= existing.length || start > stop) {
+    return `[*0\r\n]`;
   }
 
   if (existing) {
-    const list = existing.slice(start, end + 1);
+    const list = existing.slice(start, stop + 1);
 
-    console.log(list);
+    if (Array.isArray(list)) {
+      const respArray = list.map((value) => `*${value.length}\r\n${value}`);
+
+      return respArray;
+    }
   }
 };
 

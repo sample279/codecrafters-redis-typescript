@@ -61,7 +61,8 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const start: number = Number(tokens[1]);
     const stop: number = Number(tokens[2]);
 
-    return storeGetList(key, start, stop);
+    const list = storeGetList(key, start, stop);
+    return list;
   },
 };
 
