@@ -81,17 +81,12 @@ const storeGetList = (key: string, start: number, stop: number) => {
   const existing = storeGet(key);
   let respArray: string[] = [];
 
-  console.log(start, stop);
-
   if (existing) {
     if (start + existing.length < 0) {
-      console.log("this is running");
       start = 0;
     }
 
     if (stop + existing.length < 0) {
-      console.log("this ran");
-
       stop = 0;
     }
 
@@ -102,7 +97,6 @@ const storeGetList = (key: string, start: number, stop: number) => {
 
     if (stop < 0) {
       stop = existing.length + stop;
-      console.log(stop);
     }
 
     if (stop >= existing.length) {
