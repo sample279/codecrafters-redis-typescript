@@ -178,15 +178,19 @@ const storeListLength = (key: string): string => {
  * @param key - The key of the list
  * @returns RESP-formatted string containing the popped value
  */
-const storePopFirst = (key: string): string => {
+const storePopFirst = (key: string, count?: number): string => {
   const existing = storeGet(key);
-  let pop = "";
+  let pop: string | string[] = "";
 
   if (existing === null || existing.length < 1) {
     return `$-1\r\n`;
   }
 
   if (Array.isArray(existing)) {
+    if (count) {
+      pop = existing.splice(0, count);
+      return `$${pop?.length}\r\n${pop}\r\n`;
+    }
     pop = existing.shift()!;
   }
 
