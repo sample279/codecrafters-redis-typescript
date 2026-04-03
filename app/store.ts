@@ -84,7 +84,7 @@ const storeGetList = (key: string, start: number, stop: number) => {
     const list = existing.slice(start, stop + 1);
 
     if (Array.isArray(list)) {
-      respArray = list.map((value) => `${value.length}${value}`);
+      respArray = list.map((value) => `$${value.length}${value}`);
     }
   }
 
