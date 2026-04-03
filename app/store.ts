@@ -3,6 +3,8 @@ const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
 /**
  * Sets a key-value pair in the store.
+ * If a TTL is provided, the key will expire after the given time.
+ *
  * @param key - The key to set
  * @param value - The value to store
  * @param ttlMs - Optional expiry in milliseconds
@@ -24,16 +26,20 @@ const storeSet = (
 };
 
 /**
- * Gets value of key from the store.
+ * Gets value of a key from the store.
+ *
  * @param key - The key to get
+ * @returns The stored value, or null if the key does not exist
  */
 const storeGet = (key: string): string | string[] | null =>
   data.get(key) ?? null;
 
 /**
- * Deletes the key-value pair in the store
+ * Deletes a key-value pair from the store.
+ * Also clears any associated TTL timer.
+ *
  * @param key - The key to delete
- * */
+ */
 const storeDelete = (key: string): void => {
   clearTimeout(timers.get(key));
   data.delete(key);
@@ -41,12 +47,12 @@ const storeDelete = (key: string): void => {
 };
 
 /**
- * Appends one or more values to a list stored at the given key.
+ * Appends one or more values to the end of a list stored at the given key.
  * If the key does not exist, a new list is created.
  * If the key holds a string, it is converted into a list before appending.
  *
  * @param key - The key of the list
- * @param value - Array of values to append to the list
+ * @param value - Array of values to append
  * @returns RESP-formatted string containing the updated list length
  */
 const storeAppendLast = (key: string, value: string[]): string => {
@@ -69,12 +75,12 @@ const storeAppendLast = (key: string, value: string[]): string => {
 };
 
 /**
- * Appends one or more values at the start of the list stored at the given key.
- * If key does not exist, a new list is created.
- * If the key holds a string, it is converted into a list before appending.
+ * Appends one or more values to the start of a list stored at the given key.
+ * If the key does not exist, a new list is created.
+ * If the key holds a string, it is converted into a list before prepending.
  *
  * @param key - The key of the list
- * @param value - Array of values to append to the list
+ * @param value - Array of values to prepend
  * @returns RESP-formatted string containing the updated list length
  */
 const storeAppendFirst = (key: string, value: string[]): string => {
@@ -99,11 +105,13 @@ const storeAppendFirst = (key: string, value: string[]): string => {
 
 /**
  * Gets a range of values from a list stored at the given key.
+ * Supports negative indexing.
+ *
  * Returns values between `start` and `stop` (inclusive) in RESP format.
  *
  * @param key - The key of the list
- * @param start - The starting index (inclusive)
- * @param stop - The ending index (inclusive)
+ * @param start - Starting index (inclusive)
+ * @param stop - Ending index (inclusive)
  * @returns RESP-formatted string containing the selected list values
  */
 const storeGetList = (key: string, start: number, stop: number): string => {
@@ -147,8 +155,11 @@ const storeGetList = (key: string, start: number, stop: number): string => {
 };
 
 /**
- * Returns length of a list stored at a given key.
+ * Returns the length of a list stored at the given key.
+ * If the key does not exist, returns 0.
+ *
  * @param key - The key of the list
+ * @returns RESP-formatted string containing the list length
  */
 const storeListLength = (key: string): string => {
   const existing = storeGet(key);
@@ -160,6 +171,13 @@ const storeListLength = (key: string): string => {
   return `:0\r\n`;
 };
 
+/**
+ * Removes and returns the first element (head) of a list stored at the given key.
+ * If the key does not exist or the list is empty, returns a null bulk string.
+ *
+ * @param key - The key of the list
+ * @returns RESP-formatted string containing the popped value
+ */
 const storePopFirst = (key: string): string => {
   const existing = storeGet(key);
   let pop = "";

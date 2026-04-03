@@ -11,22 +11,36 @@ import {
 
 /**
  * Map of Redis command handlers.
- * Each handler receives the command arguments (without the command name itself)
+ * Each handler receives command arguments (excluding the command name)
  * and returns a RESP-encoded string.
+ *
  * @example
  * handlers["GET"](["mykey"])
  * "$5\r\nhello\r\n"
  */
 const handlers: Record<string, (tokens: string[]) => string> = {
-  /** Responds with PONG */
+  /**
+   * Responds with a simple PONG message.
+   *
+   * @returns RESP simple string
+   */
   PING: () => "+PONG\r\n",
 
-  /** Echoes the given message back */
+  /**
+   * Echoes the given message back.
+   *
+   * @param tokens - [message]
+   * @returns RESP bulk string containing the message
+   */
   ECHO: (tokens) => `$${tokens[0].length}\r\n${tokens[0]}\r\n`,
 
   /**
    * Sets a key-value pair in the store.
    * Optionally accepts PX for expiry in milliseconds.
+   *
+   * @param tokens - [key, value, "PX"?, ttlMs?]
+   * @returns RESP simple string "+OK"
+   *
    * @example
    * SET mykey myval PX 1000
    */
@@ -40,7 +54,10 @@ const handlers: Record<string, (tokens: string[]) => string> = {
 
   /**
    * Gets the value of a key.
-   * Returns null bulk string if key does not exist.
+   * Returns a null bulk string if the key does not exist.
+   *
+   * @param tokens - [key]
+   * @returns RESP bulk string or null bulk string
    */
   GET: (tokens) => {
     const value = storeGet(tokens[0]);
@@ -50,7 +67,10 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   /**
    * Pushes one or more values to the tail of a list.
    * Creates the list if it does not exist.
-   * Returns the new length of the list.
+   *
+   * @param tokens - [key, ...values]
+   * @returns RESP integer representing new list length
+   *
    * @example
    * RPUSH mylist a b c
    * ":3\r\n"
@@ -65,7 +85,10 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   /**
    * Pushes one or more values to the head of a list.
    * Creates the list if it does not exist.
-   * Returns the new length of the list.
+   *
+   * @param tokens - [key, ...values]
+   * @returns RESP integer representing new list length
+   *
    * @example
    * LPUSH mylist a b c
    * ":3\r\n"
@@ -79,9 +102,12 @@ const handlers: Record<string, (tokens: string[]) => string> = {
 
   /**
    * Returns a range of elements from a list.
-   * Values between `start` and `stop` (inclusive) are returned in RESP format.
+   * Values between `start` and `stop` (inclusive) are returned.
    * Supports negative indices.
+   *
    * @param tokens - [key, start, stop]
+   * @returns RESP array of bulk strings
+   *
    * @example
    * LRANGE mylist 0 2
    * "*3\r\n$1\r\na\r\n$1\r\nb\r\n$1\r\nc\r\n"
@@ -95,9 +121,13 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   },
 
   /**
-   * Returns length of elements of a list.
+   * Returns the length of a list stored at the given key.
+   *
+   * @param tokens - [key]
+   * @returns RESP integer representing list length
+   *
    * @example
-   * LLEN mylist key
+   * LLEN mylist
    * ":3\r\n"
    */
   LLEN: (tokens) => {
@@ -106,9 +136,19 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     return storeListLength(key);
   },
 
+  /**
+   * Removes and returns the first element (head) of a list.
+   * Returns null bulk string if the list is empty or does not exist.
+   *
+   * @param tokens - [key]
+   * @returns RESP bulk string containing popped value
+   *
+   * @example
+   * LPOP mykey
+   * "$4\r\nval1\r\n"
+   */
   LPOP: (tokens) => {
     const key: string = tokens[0];
-
     return storePopFirst(key);
   },
 };
