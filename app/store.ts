@@ -185,6 +185,7 @@ const storePopFirst = (key: string, count?: number): string => {
   if (existing === null || existing.length < 1) {
     return `$-1\r\n`;
   }
+  console.log(count);
 
   if (Array.isArray(existing)) {
     if (count !== undefined) {
