@@ -150,7 +150,7 @@ const storeListLength = (key: string): string => {
   const existing = storeGet(key);
 
   if (existing) {
-    return `:[<+|->]${existing.length}`;
+    return `:[<+|->]${existing.length}\r\n`;
   }
 
   return `:[<+|->]0\r\n`;
