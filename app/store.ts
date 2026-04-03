@@ -81,33 +81,30 @@ const storeGetList = (key: string, start: number, stop: number) => {
   const existing = storeGet(key);
   let respArray: string[] = [];
 
-  console.log(start, stop);
-  if (existing && stop >= existing.length) {
-    stop = existing.length;
-  }
-
-  if (existing === null || start >= existing.length || start > stop) {
-    return `*0\r\n`;
-  }
-
-  if (start < 0) {
-    start = existing.length + start;
-    console.log(start);
-  }
-
-  console.log("why u not running");
-
-  if (stop < 0) {
-    stop = existing.length + stop;
-    console.log(stop);
-  }
-
   if (existing) {
+    if (start < 0) {
+      start = existing.length + start;
+      console.log(start);
+    }
+
+    if (stop < 0) {
+      stop = existing.length + stop;
+      console.log(stop);
+    }
+
+    if (stop >= existing.length) {
+      stop = existing.length;
+    }
+
     const list = existing.slice(start, stop + 1);
 
     if (Array.isArray(list)) {
       respArray = list.map((value) => `$${value.length}\r\n${value}`);
     }
+  }
+
+  if (existing === null || start >= existing.length || start > stop) {
+    return `*0\r\n`;
   }
 
   return `*${respArray.length}\r\n${respArray.join("\r\n")}\r\n`;
