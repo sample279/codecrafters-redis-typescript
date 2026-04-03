@@ -62,7 +62,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const stop: number = Number(tokens[2]);
 
     const list = storeGetList(key, start, stop);
-    return list;
+    console.log(list);
   },
 };
 
