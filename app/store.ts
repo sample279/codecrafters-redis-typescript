@@ -84,11 +84,11 @@ const storeGetList = (key: string, start: number, stop: number) => {
     const list = existing.slice(start, stop + 1);
 
     if (Array.isArray(list)) {
-      respArray = list.map((value) => `$${value.length}\r\n${value}\r\n`);
+      respArray = list.map((value) => `$${value.length}\r\n${value}`);
     }
   }
 
-  return `*${respArray.length}\r\n${respArray.join("\r\n")}`;
+  return `*${respArray.length}\r\n${respArray.join("\r\n")}\r\n`;
 };
 
 export { storeSet, storeGet, storeDelete, storeAppendList, storeGetList };
