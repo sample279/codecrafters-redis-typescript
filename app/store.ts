@@ -146,6 +146,10 @@ const storeGetList = (key: string, start: number, stop: number): string => {
   return `*${respArray.length}\r\n${respArray.join("\r\n")}\r\n`;
 };
 
+/**
+ * Returns length of a list stored at a given key.
+ * @param key - The key of the list
+ */
 const storeListLength = (key: string): string => {
   const existing = storeGet(key);
 

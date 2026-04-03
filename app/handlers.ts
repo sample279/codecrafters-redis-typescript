@@ -13,7 +13,8 @@ import {
  * Each handler receives the command arguments (without the command name itself)
  * and returns a RESP-encoded string.
  * @example
- * handlers["GET"](["mykey"]) // "$5\r\nhello\r\n"
+ * handlers["GET"](["mykey"])
+ * "$5\r\nhello\r\n"
  */
 const handlers: Record<string, (tokens: string[]) => string> = {
   /** Responds with PONG */
@@ -25,7 +26,8 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   /**
    * Sets a key-value pair in the store.
    * Optionally accepts PX for expiry in milliseconds.
-   * @example SET mykey myval PX 1000
+   * @example
+   * SET mykey myval PX 1000
    */
   SET: (tokens) => {
     const ttlMs =
@@ -49,8 +51,8 @@ const handlers: Record<string, (tokens: string[]) => string> = {
    * Creates the list if it does not exist.
    * Returns the new length of the list.
    * @example
-   * // RPUSH mylist a b c
-   * // ":3\r\n"
+   * RPUSH mylist a b c
+   * ":3\r\n"
    */
   RPUSH: (tokens) => {
     const key: string = tokens[0];
@@ -64,10 +66,9 @@ const handlers: Record<string, (tokens: string[]) => string> = {
    * Creates the list if it does not exist.
    * Returns the new length of the list.
    * @example
-   * // LPUSH mylist a b c
-   * // ":3\r\n"
+   * LPUSH mylist a b c
+   * ":3\r\n"
    */
-
   LPUSH: (tokens) => {
     const key: string = tokens[0];
     const value: string[] = tokens.slice(1);
@@ -81,8 +82,8 @@ const handlers: Record<string, (tokens: string[]) => string> = {
    * Supports negative indices.
    * @param tokens - [key, start, stop]
    * @example
-   * // LRANGE mylist 0 2
-   * // "*3\r\n$1\r\na\r\n$1\r\nb\r\n$1\r\nc\r\n"
+   * LRANGE mylist 0 2
+   * "*3\r\n$1\r\na\r\n$1\r\nb\r\n$1\r\nc\r\n"
    */
   LRANGE: (tokens) => {
     const key: string = tokens[0];
@@ -92,6 +93,12 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     return storeGetList(key, start, stop);
   },
 
+  /**
+   * Returns length of elements of a list.
+   * @example
+   * LLEN mylist key
+   * ":3\r\n"
+   */
   LLEN: (tokens) => {
     const key: string = tokens[0];
 
