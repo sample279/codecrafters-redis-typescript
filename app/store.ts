@@ -187,7 +187,7 @@ const storePopFirst = (key: string, count?: number): string => {
   }
 
   if (Array.isArray(existing)) {
-    if (count) {
+    if (count !== undefined) {
       pop = existing.splice(0, count);
       console.log(pop);
       console.log(`*${pop.length}\r\n${pop.join("\r\n")}`);
