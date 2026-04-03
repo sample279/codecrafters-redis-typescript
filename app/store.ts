@@ -70,6 +70,7 @@ const storeAppendList = (key: string, value: string[]) => {
 
 const storeGetList = (key: string, start: number, stop: number) => {
   const existing = storeGet(key);
+  let respArray: string[] = [];
 
   if (existing && stop >= existing.length) {
     stop = existing.length;
@@ -83,9 +84,11 @@ const storeGetList = (key: string, start: number, stop: number) => {
     const list = existing.slice(start, stop + 1);
 
     if (Array.isArray(list)) {
-      return `*${list.length}\r\n${list.join("\r\n")}`;
+      respArray = list.map((value) => `${value.length}${value}`);
     }
   }
+
+  return `*${respArray.length}\r\n${respArray.join("\r\n")}`;
 };
 
 export { storeSet, storeGet, storeDelete, storeAppendList, storeGetList };
