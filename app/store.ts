@@ -95,6 +95,8 @@ const storeGetList = (key: string, start: number, stop: number) => {
     console.log(start);
   }
 
+  console.log("why u not running");
+
   if (stop < 0) {
     stop = existing.length + stop;
     console.log(stop);
