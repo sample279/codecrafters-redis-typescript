@@ -193,11 +193,14 @@ const storePopFirst = (key: string, count?: number): string => {
       const respArray = pop.map(
         (element) => `$${element.length}\r\n${element}`,
       );
+      console.log("poped array");
+
       return `*${pop.length}\r\n${respArray.join("\r\n")}\r\n`;
     }
     pop = existing.shift()!;
   }
 
+  console.log("poped string");
   return `$${pop?.length}\r\n${pop}\r\n`;
 };
 
