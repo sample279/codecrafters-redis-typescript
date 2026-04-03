@@ -91,7 +91,7 @@ const storeGetList = (key: string, start: number, stop: number) => {
         start = 0;
       }
       start = existing.length + start;
-      console.log(start);
+      console.log("this is new " + start);
     }
 
     if (stop < 0) {
