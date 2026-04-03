@@ -2,7 +2,8 @@ import {
   storeSet,
   storeGet,
   storeDelete,
-  storeAppendList,
+  storeAppendLast,
+  storeAppendFirst,
   storeGetList,
 } from "./store";
 
@@ -53,7 +54,14 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const key: string = tokens[0];
     const value: string[] = tokens.slice(1);
 
-    return storeAppendList(key, value);
+    return storeAppendLast(key, value);
+  },
+
+  LPUSH: (tokens) => {
+    const key: string = tokens[0];
+    const value: string[] = tokens.slice(1);
+
+    return storeAppendFirst(key, value);
   },
 
   /**

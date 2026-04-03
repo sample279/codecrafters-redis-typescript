@@ -49,7 +49,7 @@ const storeDelete = (key: string): void => {
  * @param value - Array of values to append to the list
  * @returns RESP-formatted string containing the updated list length
  */
-const storeAppendList = (key: string, value: string[]) => {
+const storeAppendLast = (key: string, value: string[]) => {
   let existing = storeGet(key);
 
   if (existing === null) {
@@ -60,6 +60,25 @@ const storeAppendList = (key: string, value: string[]) => {
 
   if (Array.isArray(existing)) {
     existing.push(...value);
+    return `:${existing.length}\r\n`;
+  }
+
+  const arr = [existing, ...value];
+  data.set(key, arr);
+  return `:${arr.length}\r\n`;
+};
+
+const storeAppendFirst = (key: string, value: string[]) => {
+  let existing = storeGet(key);
+
+  if (existing === null) {
+    const arr = [...value];
+    data.set(key, arr.reverse());
+    return `:${arr.length}\r\n`;
+  }
+
+  if (Array.isArray(existing)) {
+    existing.unshift(...value);
     return `:${existing.length}\r\n`;
   }
 
@@ -117,4 +136,11 @@ const storeGetList = (key: string, start: number, stop: number) => {
   return `*${respArray.length}\r\n${respArray.join("\r\n")}\r\n`;
 };
 
-export { storeSet, storeGet, storeDelete, storeAppendList, storeGetList };
+export {
+  storeSet,
+  storeGet,
+  storeDelete,
+  storeAppendLast,
+  storeAppendFirst,
+  storeGetList,
+};
