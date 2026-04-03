@@ -76,16 +76,14 @@ const storeGetList = (key: string, start: number, stop: number) => {
   }
 
   if (existing === null || start >= existing.length || start > stop) {
-    return `[*0\r\n]`;
+    return `*0\r\n`;
   }
 
   if (existing) {
     const list = existing.slice(start, stop + 1);
 
     if (Array.isArray(list)) {
-      const respArray = list.map((value) => `*${value.length}\r\n${value}`);
-
-      return respArray;
+      return `*${list.length}\r\n${list.join("\r\n")}`;
     }
   }
 };
