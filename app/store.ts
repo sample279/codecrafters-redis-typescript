@@ -172,7 +172,7 @@ const storePopFirst = (key: string): string => {
     pop = existing.shift()!;
   }
 
-  return `${pop?.length}\r\n${pop}\r\n`;
+  return `$${pop?.length}\r\n${pop}\r\n`;
 };
 
 export {
