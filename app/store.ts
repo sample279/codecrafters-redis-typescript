@@ -153,7 +153,7 @@ const storeListLength = (key: string): string => {
     return `:${existing.length}\r\n`;
   }
 
-  return `:[<+|->]0\r\n`;
+  return `:0\r\n`;
 };
 
 export {
