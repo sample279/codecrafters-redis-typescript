@@ -137,15 +137,19 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   },
 
   /**
-   * Removes and returns the first element (head) of a list.
+   * Removes and returns the first element(s) (head) of a list.
    * Returns null bulk string if the list is empty or does not exist.
    *
-   * @param tokens - [key]
-   * @returns RESP bulk string containing popped value
+   * @param tokens - [key, count?]
+   * @returns RESP bulk string (single) or array (multiple)
    *
    * @example
    * LPOP mykey
    * "$4\r\nval1\r\n"
+   *
+   * @example
+   * LPOP mykey 2
+   * "*2\r\n$4\r\nval1\r\n$4\r\nval2\r\n"
    */
   LPOP: (tokens) => {
     const key: string = tokens[0];

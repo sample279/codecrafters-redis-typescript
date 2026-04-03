@@ -172,11 +172,12 @@ const storeListLength = (key: string): string => {
 };
 
 /**
- * Removes and returns the first element (head) of a list stored at the given key.
+ * Removes and returns one or more elements from the start of a list stored at the given key.
  * If the key does not exist or the list is empty, returns a null bulk string.
  *
  * @param key - The key of the list
- * @returns RESP-formatted string containing the popped value
+ * @param count - Optional number of elements to remove
+ * @returns RESP-formatted string containing the popped value(s)
  */
 const storePopFirst = (key: string, count?: number): string => {
   const existing = storeGet(key);
