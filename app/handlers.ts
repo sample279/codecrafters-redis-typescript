@@ -1,4 +1,10 @@
-import { storeSet, storeGet, storeDelete, storeAppendList } from "./store";
+import {
+  storeSet,
+  storeGet,
+  storeDelete,
+  storeAppendList,
+  storeGetList,
+} from "./store";
 
 /**
  * Map of Redis command handlers.
@@ -55,7 +61,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const start: number = Number(tokens[1]);
     const stop: number = Number(tokens[2]);
 
-    return;
+    return storeGetList(key, start, stop);
   },
 };
 
