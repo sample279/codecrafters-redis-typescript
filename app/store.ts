@@ -68,6 +68,15 @@ const storeAppendList = (key: string, value: string[]) => {
   return `:${arr.length}\r\n`;
 };
 
+/**
+ * Gets a range of values from a list stored at the given key.
+ * Returns values between `start` and `stop` (inclusive) in RESP format.
+ *
+ * @param key - The key of the list
+ * @param start - The starting index (inclusive)
+ * @param stop - The ending index (inclusive)
+ * @returns RESP-formatted string containing the selected list values
+ */
 const storeGetList = (key: string, start: number, stop: number) => {
   const existing = storeGet(key);
   let respArray: string[] = [];
@@ -78,6 +87,14 @@ const storeGetList = (key: string, start: number, stop: number) => {
 
   if (existing === null || start >= existing.length || start > stop) {
     return `*0\r\n`;
+  }
+
+  if (start < 0) {
+    start += existing.length + start + 1;
+  }
+
+  if (stop < 0) {
+    stop += existing.length + stop + 1;
   }
 
   if (existing) {

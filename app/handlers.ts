@@ -56,6 +56,15 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     return storeAppendList(key, value);
   },
 
+  /**
+   * Returns a range of elements from a list.
+   * Values between `start` and `stop` (inclusive) are returned in RESP format.
+   *
+   * @param tokens - [key, start, stop]
+   * @example
+   * // LRANGE mylist 0 2
+   * // "*3\r\n$1\r\na\r\n$1\r\nb\r\n$1\r\nc\r\n"
+   */
   LRANGE: (tokens) => {
     const key: string = tokens[0];
     const start: number = Number(tokens[1]);
