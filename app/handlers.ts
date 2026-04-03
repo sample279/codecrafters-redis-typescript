@@ -150,7 +150,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
   LPOP: (tokens) => {
     const key: string = tokens[0];
     const count: number = Number(tokens[1]);
-    return storePopFirst(key);
+    return storePopFirst(key, count);
   },
 };
 
