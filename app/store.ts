@@ -188,6 +188,8 @@ const storePopFirst = (key: string, count?: number): string => {
 
   if (Array.isArray(existing)) {
     if (count !== undefined) {
+      console.log(count);
+
       pop = existing.splice(0, count);
 
       const respArray = pop.map(
