@@ -6,6 +6,7 @@ import {
   storeAppendFirst,
   storeGetList,
   storeListLength,
+  storePopFirst,
 } from "./store";
 
 /**
@@ -103,6 +104,12 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const key: string = tokens[0];
 
     return storeListLength(key);
+  },
+
+  LPOP: (tokens) => {
+    const key: string = tokens[0];
+
+    return storePopFirst(key);
   },
 };
 

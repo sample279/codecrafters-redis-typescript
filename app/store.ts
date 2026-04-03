@@ -160,6 +160,21 @@ const storeListLength = (key: string): string => {
   return `:0\r\n`;
 };
 
+const storePopFirst = (key: string): string => {
+  const existing = storeGet(key);
+  let pop = "";
+
+  if (existing === null || existing.length < 1) {
+    return `$-1\r\n`;
+  }
+
+  if (Array.isArray(existing)) {
+    pop = existing.shift()!;
+  }
+
+  return `${pop?.length}\r\n${pop}\r\n`;
+};
+
 export {
   storeSet,
   storeGet,
@@ -168,4 +183,5 @@ export {
   storeAppendFirst,
   storeGetList,
   storeListLength,
+  storePopFirst,
 };
