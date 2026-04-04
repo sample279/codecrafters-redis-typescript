@@ -220,4 +220,5 @@ export {
   storeGetList,
   storeListLength,
   storePopFirst,
+  storeBlockPopFirst,
 };
