@@ -202,7 +202,6 @@ const storePopFirst = (key: string, count?: number): string => {
     pop = existing.shift()!;
   }
 
-  console.log("poped string");
   return `$${pop?.length}\r\n${pop}\r\n`;
 };
 
@@ -217,6 +216,10 @@ const storeBlockPopFirst = (key: string, ttBMs: number) => {
             const respArray = existing.map(
               (value) => `$${value.length}\r\n${value}`,
             );
+            console.log(
+              "runs:" + `*${existing?.length}\r\n${respArray.join("\r\n")}\r\n`,
+            );
+
             return `*${existing?.length}\r\n${respArray.join("\r\n")}\r\n`;
           }
         }
