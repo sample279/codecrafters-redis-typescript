@@ -156,6 +156,11 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const count: number = Number(tokens[1]);
     return storePopFirst(key, count);
   },
+
+  BLPOP: (tokens) => {
+    const key: string = tokens[0];
+    const ttBMs: number = Number(tokens[1]);
+  },
 };
 
 export { handlers };

@@ -1,3 +1,5 @@
+import { log } from "console";
+
 const data = new Map<string, string | string[]>();
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
@@ -202,6 +204,11 @@ const storePopFirst = (key: string, count?: number): string => {
 
   console.log("poped string");
   return `$${pop?.length}\r\n${pop}\r\n`;
+};
+
+const storeBlockPopFirst = (key: string, ttBMs: number) => {
+  const list = data.keys();
+  console.log(list);
 };
 
 export {
