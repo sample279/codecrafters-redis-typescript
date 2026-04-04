@@ -207,9 +207,12 @@ const storePopFirst = (key: string, count?: number): string => {
 };
 
 const storeBlockPopFirst = (key: string, ttBMs: number) => {
-  const list = data.keys();
-
-  console.log(Array.from(list));
+  if (ttBMs) {
+    if (ttBMs === 0) {
+      const list = Array.from(data.keys());
+      console.log(Array.from(list));
+    }
+  }
 };
 
 export {
