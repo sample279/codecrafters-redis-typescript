@@ -162,7 +162,7 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const key: string = tokens[0];
     const ttBMs: number = Number(tokens[1]);
 
-    storeBlockPopFirst(key, 0);
+    storeBlockPopFirst(key, ttBMs);
   },
 };
 
