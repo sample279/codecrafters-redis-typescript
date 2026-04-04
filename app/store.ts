@@ -207,7 +207,7 @@ const storePopFirst = (key: string, count?: number): string => {
 };
 
 const storeBlockPopFirst = (key: string, ttBMs: number) => {
-  if (ttBMs) {
+  if (ttBMs !== undefined) {
     if (ttBMs === 0) {
       const list = Array.from(data.keys());
       console.log(Array.from(list));
