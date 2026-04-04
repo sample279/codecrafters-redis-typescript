@@ -209,8 +209,18 @@ const storePopFirst = (key: string, count?: number): string => {
 const storeBlockPopFirst = (key: string, ttBMs: number) => {
   if (ttBMs !== undefined) {
     if (ttBMs === 0) {
-      const list = Array.from(data.keys());
-      console.log(Array.from(list));
+      setInterval(() => {
+        const list = Array.from(data.keys());
+        for (let i = 0; i < list.length; i++) {
+          if (list[i] === key) {
+            const existing = storeGet(key) as Array<string>;
+            const respArray = existing.map(
+              (value) => `$${value.length}\r\n${value}`,
+            );
+            return `*${existing?.length}\r\n${respArray.join("\r\n")}\r\n`;
+          }
+        }
+      }, ttBMs);
     }
   }
 };
