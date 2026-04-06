@@ -88,6 +88,7 @@ const storeAppendLast = (key: string, value: string[]): string => {
  */
 const storeAppendFirst = (key: string, value: string[]): string => {
   let existing = storeGet(key);
+  value = value.reverse();
 
   if (existing === null) {
     const arr = [...value];
@@ -96,7 +97,7 @@ const storeAppendFirst = (key: string, value: string[]): string => {
   }
 
   if (Array.isArray(existing)) {
-    existing.push(...value);
+    existing.unshift(...value);
     return `:${existing.length}\r\n`;
   }
 
