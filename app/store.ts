@@ -202,62 +202,41 @@ const storePopFirst = (key: string, count?: number): string => {
   return `$${pop?.length}\r\n${pop}\r\n`;
 };
 
-// const storeBlockPopFirst = (key: string, ttBMs: number) => {
-// if (ttBMs !== undefined) {
-//   let existing = storeGet(key) as Array<string>;
-//
-//   const interval = setInterval(
-//     () => {
-//       console.log(key, ttBMs);
-//
-//       if (existing === null) {
-//         console.log(existing);
-//         existing = storeGet(key) as Array<string>;
-//       }
-//
-//       if (existing) {
-//         console.log(existing);
-//
-//         const respArray: string[] = existing.map(
-//           (value) => `$${value.length}\r\n${value}`,
-//         );
-//
-//         console.log(respArray);
-//
-//         const pop = respArray.shift() as string;
-//         console.log(pop);
-//
-//         console.log(`*${pop.length}\r\n${pop}`);
-//
-//         clearInterval(interval);
-//         return `*${pop.length}\r\n${pop}`;
-//       }
-//     },
-//     ttBMs === 0 ? 0 : ttBMs,
-//   );
-// }
-const storeBlockPopFirst = (key: string, ttBMs?: number): Promise<string> => {
-  return new Promise((resolve) => {
-    if (ttBMs === undefined) {
-      resolve("$-1\r\n");
-      return;
-    }
+const storeBlockPopFirst = (key: string, ttBMs: number) => {
+  if (ttBMs !== undefined) {
+    let existing = storeGet(key) as Array<string>;
 
-    setTimeout(() => {
-      const existing = storeGet(key) as string[] | null;
+    const interval = setInterval(
+      () => {
+        console.log(key, ttBMs);
 
-      if (!existing || existing.length === 0) {
-        resolve("$-1\r\n");
-        return;
-      }
+        if (existing === null) {
+          console.log(existing);
+          existing = storeGet(key) as Array<string>;
+        }
 
-      const value = existing.shift() as string;
+        if (existing) {
+          console.log(existing);
 
-      resolve(`$${value.length}\r\n${value}\r\n`);
-    }, ttBMs);
-  });
+          const respArray: string[] = existing.map(
+            (value) => `$${value.length}\r\n${value}`,
+          );
+
+          console.log(respArray);
+
+          const pop = respArray.shift() as string;
+          console.log(pop);
+
+          console.log(`*${pop.length}\r\n${pop}`);
+
+          clearInterval();
+          return `*${pop.length}\r\n${pop}`;
+        }
+      },
+      ttBMs === 0 ? 0 : ttBMs,
+    );
+  }
 };
-// };
 
 export {
   storeSet,
