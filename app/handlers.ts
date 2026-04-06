@@ -165,6 +165,7 @@ const handlers: Record<string, (tokens: string[]) => string | Promise<string>> =
     LPOP: (tokens) => {
       const key: string = tokens[0];
       const count: number = Number(tokens[1]);
+
       return storePopFirst(key, count);
     },
 
