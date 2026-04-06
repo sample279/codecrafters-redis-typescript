@@ -82,7 +82,7 @@ const handlers: Record<string, (tokens: string[]) => string | Promise<string>> =
       const key: string = tokens[0];
       const value: string[] = tokens.slice(1);
 
-      const push = storeAppendFirst(key, value);
+      const push = storeAppendLast(key, value);
 
       const wait = storeGetBlocked(key);
 
