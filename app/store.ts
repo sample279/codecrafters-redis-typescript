@@ -208,16 +208,26 @@ const storeBlockPopFirst = (key: string, ttBMs: number) => {
 
     setInterval(
       () => {
+        console.log(key, ttBMs);
+
         if (existing === null) {
+          console.log(existing);
           existing = storeGet(key) as Array<string>;
         }
 
         if (existing) {
+          console.log(existing);
+
           const respArray: string[] = existing.map(
             (value) => `$${value.length}\r\n${value}`,
           );
 
+          console.log(respArray);
+
           const pop = respArray.shift() as string;
+          console.log(pop);
+
+          console.log(`*${pop.length}\r\n${pop}`);
 
           return `*${pop.length}\r\n${pop}`;
         }
