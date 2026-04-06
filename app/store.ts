@@ -229,7 +229,7 @@ const storeBlockPopFirst = (key: string, ttBMs: number) => {
 
           console.log(`*${pop.length}\r\n${pop}`);
 
-          clearInterval();
+          clearInterval(interval);
           return `*${pop.length}\r\n${pop}`;
         }
       },
