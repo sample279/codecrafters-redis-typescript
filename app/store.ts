@@ -1,5 +1,8 @@
+import type { ResolveFn } from "./types";
+
 const data = new Map<string, string | string[]>();
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
+const blocked = new Map<string, ResolveFn[]>();
 
 /**
  * Sets a key-value pair in the store.
@@ -202,40 +205,25 @@ const storePopFirst = (key: string, count?: number): string => {
   return `$${pop?.length}\r\n${pop}\r\n`;
 };
 
-const storeBlockPopFirst = (key: string, ttBMs: number) => {
-  if (ttBMs !== undefined) {
-    let existing = storeGet(key) as Array<string>;
+const storeGetBlocked = (key: string) => {
+  return blocked.get(key);
+};
 
-    const interval = setInterval(
-      () => {
-        console.log(key, ttBMs);
+const storeBlockPopFirst = async (
+  key: string,
+  ttBMs: number,
+): Promise<string> => {
+  const wait = new Promise<string>((resolve) => {
+    const existing = blocked.get(key);
 
-        if (existing === null) {
-          console.log(existing);
-          existing = storeGet(key) as Array<string>;
-        }
+    if (!existing) {
+      blocked.set(key, [resolve]);
+    } else {
+      existing.push(resolve);
+    }
+  });
 
-        if (existing) {
-          console.log(existing);
-
-          const respArray: string[] = existing.map(
-            (value) => `$${value.length}\r\n${value}`,
-          );
-
-          console.log(respArray);
-
-          const pop = respArray.shift() as string;
-          console.log(pop);
-
-          console.log(`*${pop.length}\r\n${pop}`);
-
-          clearInterval(interval);
-          return `*${pop.length}\r\n${pop}`;
-        }
-      },
-      ttBMs === 0 ? 0 : ttBMs,
-    );
-  }
+  return await wait;
 };
 
 export {
@@ -247,5 +235,6 @@ export {
   storeGetList,
   storeListLength,
   storePopFirst,
+  storeGetBlocked,
   storeBlockPopFirst,
 };

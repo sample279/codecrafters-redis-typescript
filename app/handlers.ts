@@ -8,6 +8,7 @@ import {
   storeListLength,
   storePopFirst,
   storeBlockPopFirst,
+  storeGetBlocked,
 } from "./store";
 
 /**
@@ -80,7 +81,15 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     const key: string = tokens[0];
     const value: string[] = tokens.slice(1);
 
-    return storeAppendLast(key, value);
+    const push = storeAppendFirst(key, value);
+
+    const wait = storeGetBlocked(key);
+
+    if (wait && wait.length > 0) {
+      wait.shift()!(value[0]);
+    }
+
+    return push;
   },
 
   /**
@@ -158,11 +167,20 @@ const handlers: Record<string, (tokens: string[]) => string> = {
     return storePopFirst(key, count);
   },
 
-  BLPOP: (tokens) => {
-    const key: string = tokens[0];
-    const ttBMs: number = Number(tokens[1]);
+  BLPOP: async (tokens) => {
+    const key = tokens[0];
+    const ttBMs = Number(tokens[1]);
 
-    storeBlockPopFirst(key, ttBMs);
+    const existing = storeGet(key);
+
+    let element: string;
+    if (existing && existing.length > 0) {
+      return storePopFirst(key);
+    } else {
+      element = await storeBlockPopFirst(key, ttBMs);
+    }
+
+    return `*2\r\n$${key.length}\r\n${key}\r\n$${element.length}\r\n${element}\r\n`;
   },
 };
 
