@@ -1,5 +1,3 @@
-import { log } from "console";
-
 const data = new Map<string, string | string[]>();
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
@@ -131,7 +129,6 @@ const storeGetList = (key: string, start: number, stop: number): string => {
 
     if (start < 0) {
       start = existing.length + start;
-      console.log(start);
     }
 
     if (stop < 0) {
@@ -207,24 +204,26 @@ const storePopFirst = (key: string, count?: number): string => {
 
 const storeBlockPopFirst = (key: string, ttBMs: number) => {
   if (ttBMs !== undefined) {
-    if (ttBMs === 0) {
-      setInterval(() => {
-        const list = Array.from(data.keys());
-        for (let i = 0; i < list.length; i++) {
-          if (list[i] === key) {
-            const existing = storeGet(key) as Array<string>;
-            const respArray = existing.map(
-              (value) => `$${value.length}\r\n${value}`,
-            );
-            console.log(
-              "runs:" + `*${existing?.length}\r\n${respArray.join("\r\n")}\r\n`,
-            );
+    let existing = storeGet(key) as Array<string>;
 
-            return `*${existing?.length}\r\n${respArray.join("\r\n")}\r\n`;
-          }
+    setInterval(
+      () => {
+        if (existing === null) {
+          existing = storeGet(key) as Array<string>;
         }
-      }, ttBMs);
-    }
+
+        if (existing) {
+          const respArray: string[] = existing.map(
+            (value) => `$${value.length}\r\n${value}`,
+          );
+
+          const pop = respArray.shift() as string;
+
+          return `*${pop.length}\r\n${pop}`;
+        }
+      },
+      ttBMs === 0 ? 0 : ttBMs,
+    );
   }
 };
 
