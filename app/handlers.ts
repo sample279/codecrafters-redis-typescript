@@ -182,6 +182,9 @@ const handlers: Record<string, (tokens: string[]) => string | Promise<string>> =
         element = await storeBlockPopFirst(key, ttBMs);
       }
 
+      if (element === null) {
+        return `*-1\r\n`;
+      }
       return `*2\r\n$${key.length}\r\n${key}\r\n$${element.length}\r\n${element}\r\n`;
     },
   };
