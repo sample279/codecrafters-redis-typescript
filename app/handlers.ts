@@ -169,6 +169,19 @@ const handlers: Record<string, (tokens: string[]) => string | Promise<string>> =
       return storePopFirst(key, count);
     },
 
+    /**
+     * Blocks until an element is available in the list, then removes and returns it.
+     * If the list already has elements, pops immediately.
+     * If the list is empty, blocks until an element is pushed via RPUSH.
+     * Returns a null array if the timeout expires before an element is available.
+     *
+     * @param tokens - [key, timeoutSeconds]
+     * @returns RESP array of [key, element], or null array on timeout
+     *
+     * @example
+     * BLPOP mylist 0
+     * "*2\r\n$6\r\nmylist\r\n$3\r\nfoo\r\n"
+     */
     BLPOP: async (tokens) => {
       const key = tokens[0];
       const ttBMs = Number(tokens[1]);

@@ -206,10 +206,26 @@ const storePopFirst = (key: string, count?: number): string => {
   return `$${pop?.length}\r\n${pop}\r\n`;
 };
 
+/**
+ * Returns the array of pending resolve functions for a given key.
+ * Used to check if any clients are blocked waiting on a list.
+ *
+ * @param key - The key of the list
+ * @returns Array of resolve functions, or undefined if none are waiting
+ */
 const storeGetBlocked = (key: string) => {
   return blocked.get(key);
 };
 
+/**
+ * Blocks until an element is available in the list at the given key.
+ * If ttBMs is 0, blocks indefinitely until an element is pushed.
+ * If ttBMs is greater than 0, blocks for that many seconds before returning empty.
+ *
+ * @param key - The key of the list to wait on
+ * @param ttBMs - Timeout in seconds (0 = indefinite)
+ * @returns Promise resolving to the pushed element, or empty string on timeout
+ */
 const storeBlockPopFirst = async (
   key: string,
   ttBMs: number,
