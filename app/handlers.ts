@@ -206,17 +206,13 @@ const handlers: Record<string, (tokens: string[]) => string | Promise<string>> =
       const key: string = tokens[0];
       const valueType = storeGet(key);
 
-      console.log(valueType);
-
       if (!valueType) {
         return `+none\r\n`;
       }
 
-      if (valueType.length === 1) {
+      if (valueType) {
         return `+string\r\n`;
       }
-
-      console.log(valueType);
     },
   };
 
