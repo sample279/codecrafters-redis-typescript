@@ -1,3 +1,4 @@
+import { resolve } from "bun";
 import type { ResolveFn } from "./types";
 
 const data = new Map<string, string | string[]>();
@@ -213,24 +214,23 @@ const storeBlockPopFirst = async (
   key: string,
   ttBMs: number,
 ): Promise<string> => {
-  if (ttBMs === 0) {
-    const wait = new Promise<string>((resolve) => {
-      const existing = blocked.get(key);
+  const wait = new Promise<string>((resolve) => {
+    const existing = blocked.get(key);
 
-      if (!existing) {
-        blocked.set(key, [resolve]);
-      } else {
-        existing.push(resolve);
-      }
-    });
-    return await wait;
-  }
+    if (!existing) {
+      blocked.set(key, [resolve]);
+    } else {
+      existing.push(resolve);
+    }
 
-  if (ttBMs > 0) {
-    setTimeout(() => {
-      return `*-1\r\n`;
-    }, ttBMs * 1000);
-  }
+    if (ttBMs > 0) {
+      setTimeout(() => {
+        resolve("");
+      }, ttBMs * 1000);
+    }
+  });
+
+  return await wait;
 };
 
 export {
