@@ -201,6 +201,19 @@ const handlers: Record<string, (tokens: string[]) => string | Promise<string>> =
 
       return `*2\r\n$${key.length}\r\n${key}\r\n$${element.length}\r\n${element}\r\n`;
     },
+
+    TYPE: (tokens) => {
+      const key: string = tokens[0];
+      const valueType = storeGet(key);
+
+      if (!valueType) {
+        return `+none\r\n`;
+      }
+
+      if (valueType.length === 1) {
+        return `+string\r\n`;
+      }
+    },
   };
 
 export { handlers };
