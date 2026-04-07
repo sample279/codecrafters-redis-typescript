@@ -213,17 +213,24 @@ const storeBlockPopFirst = async (
   key: string,
   ttBMs: number,
 ): Promise<string> => {
-  const wait = new Promise<string>((resolve) => {
-    const existing = blocked.get(key);
+  if (ttBMs === 0) {
+    const wait = new Promise<string>((resolve) => {
+      const existing = blocked.get(key);
 
-    if (!existing) {
-      blocked.set(key, [resolve]);
-    } else {
-      existing.push(resolve);
-    }
-  });
+      if (!existing) {
+        blocked.set(key, [resolve]);
+      } else {
+        existing.push(resolve);
+      }
+    });
+    return await wait;
+  }
 
-  return await wait;
+  if (ttBMs > 0) {
+    setTimeout(() => {
+      return `*-1\r\n`;
+    }, ttBMs * 1000);
+  }
 };
 
 export {
